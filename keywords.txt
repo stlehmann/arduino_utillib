@@ -1,0 +1,16 @@
+#######################################
+#	Syntax	Coloring
+#######################################
+
+# Classes KEYWORD1)
+# -------------------------------------
+utilities       KEYWORD1
+
+# Methods and Functions (KEYWORD2)
+# -------------------------------------
+getbit          KEYWORD2
+setbit          KEYWORD2
+
+# Constants (LITERAL1)
+# -------------------------------------
+dword           LITERAL1
