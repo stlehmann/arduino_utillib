@@ -50,10 +50,10 @@ Blink::Blink(long timelow, long timehigh) {
 }
 boolean Blink::process() {
     if (enable) {
+        //current time and starttime
         ulong t = millis();
-        if (enable &! last_enable) {
-            t0 = t;
-        }
+        if (enable &! last_enable) t0 = t;
+
         if (t <= (t0 + timehigh)) {
             out = true;
         }
@@ -62,9 +62,16 @@ boolean Blink::process() {
         }
         else
             t0 = t;
+
+        //if timehigh or timelow == 0 set out to false or true
+        if (timehigh == 0)
+            out = false;
+        else if (timelow == 0)
+            out = true;
     }
     else
         out = false;
+
     last_enable = enable;
     return out;
 }
