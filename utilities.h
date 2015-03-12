@@ -52,7 +52,8 @@ dword setbit(dword x, int n, boolean b);
 
     The **smallest timespan** for either Blink::timelow or Blink::timehigh is **1ms**.
 
-    A sample implementation can be found in `examples/blink/blink.ino`.
+    A sample implementation can be found in 
+   ` examples/signalgeneration/blink/blink.ino`.
 */
 class Blink {
 private:
@@ -80,4 +81,42 @@ public:
     */
     boolean process(boolean enable);
 };
+
+//------------------------------
+// PWM_DC
+//------------------------------
+//! Generate an alternating duty cycle signal.
+/*!
+    The signal frequency is defined in **0.001Hz** by PWM_DC::fq.
+    The duty cycle is defined in **0.1%** by PWM_DC::dc.
+    
+    A sample implementation can be found in 
+    `examples/signalgeneration/pwm_dc/pwm_dc.ino`.
+*/
+class PWM_DC {
+private:
+    ulong t0;
+    unsigned int state;
+    boolean last_enable;
+public:
+    //!PWM frequency in 0.001Hz
+    ulong fq;
+    //!Duty cycle in 0.1%
+    ulong dc;
+    //!Output variable
+    boolean out;
+
+    //!Constructor
+    PWM_DC();
+    //!Constructor with frequency
+    PWM_DC(ulong fq);
+    //!Call cyclic for data processing
+    boolean process();
+    //!Call cyclic for data processing
+    /*!
+        \param dc duty cycle value in 0.1%
+    */
+    boolean process(ulong dc);
+};
+
 #endif

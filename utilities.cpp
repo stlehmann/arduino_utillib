@@ -54,10 +54,10 @@ boolean Blink::process() {
         ulong t = millis();
         if (enable &! last_enable) t0 = t;
 
-        if (t <= (t0 + timehigh)) {
+        if ((t - t0) <= timehigh) {
             out = true;
         }
-        else if (t <= (t0 + timehigh + timelow)) {
+        else if ((t - t0) <= (timehigh + timelow)) {
             out = false;
         }
         else
@@ -77,5 +77,49 @@ boolean Blink::process() {
 }
 boolean Blink::process(boolean enable) {
     this->enable = enable;
+    return this->process();
+}
+//------------------------------
+// PWM_DC
+//------------------------------
+PWM_DC::PWM_DC() {
+    t0 = 0;
+    out = false;
+    fq = 0;
+    dc = 0;
+    state = 0;
+}
+PWM_DC::PWM_DC(ulong fq) {
+    t0 = 0;
+    out = false;
+    this->fq = fq;
+    dc = 0;
+    state = 0;
+}
+boolean PWM_DC::process() {
+    // current time and starttime
+    ulong t_cycle = 1E9 / fq;  // cycle time
+    ulong t_duty = (dc * t_cycle / 1E3);  // duty time
+
+    ulong t = micros();
+    switch (state) {
+    case 0:
+        t0 = t;
+        state = 1;
+        break;
+    case 1:
+        if ((t - t0) > t_duty)
+            state = 2;
+        break;
+    case 2:
+        if ((t - t0) > t_cycle)
+            state = 0;
+        break;
+    }
+    out = (state == 1);
+    return out;
+}
+boolean PWM_DC::process(ulong dc) {
+    this->dc = dc;
     return this->process();
 }
