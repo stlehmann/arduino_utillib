@@ -52,7 +52,7 @@ dword setbit(dword x, int n, boolean b);
 
     The **smallest timespan** for either Blink::timelow or Blink::timehigh is **1ms**.
 
-    A sample implementation can be found in 
+    A sample implementation can be found in
    ` examples/signalgeneration/blink/blink.ino`.
 */
 class Blink {
@@ -89,8 +89,8 @@ public:
 /*!
     The signal frequency is defined in **0.001Hz** by PWM_DC::fq.
     The duty cycle is defined in **0.1%** by PWM_DC::dc.
-    
-    A sample implementation can be found in 
+
+    A sample implementation can be found in
     `examples/signalgeneration/pwm_dc/pwm_dc.ino`.
 */
 class PWM_DC {
@@ -119,4 +119,88 @@ public:
     boolean process(ulong dc);
 };
 
+//------------------------------
+// Timer_ms
+//------------------------------
+//! A simple cyclic Timer with 1ms resolution.
+/*!
+    This is a simple Timer with milliseconds resolution.
+    If the Timer is started with Timer_ms::start() the internal counter is
+    increased until it reaches the interval time set by 
+    Timer_ms::setInterval(ulong ms). Then Timer_ms::out is set to true for one
+    cycle and the interval begins again.
+
+    The Timer_ms class uses the millis() function so the interval time
+    can be set from 1ms to appox. 50 days.
+*/
+
+class Timer_ms {
+private:
+    ulong t0;
+    ulong ms;
+    ulong delta;
+public:
+    //!True if the Timer is active.
+    boolean active;
+    //!Output. True if an interval has passed.
+    boolean out;
+
+    Timer_ms(ulong ms=100, boolean start=false);
+    
+    boolean process();
+    //!Start the timer
+    void start();
+    //!Stop the timer and reset output and internal counter
+    void stop();
+
+    //!Get the timer interval in ms
+    ulong getInterval();
+    //!Set the timer interval in ms
+    void setInterval(ulong ms);
+
+    //!Get the value of the internal millisecond counter
+    ulong getms();
+};
+//------------------------------
+// Timer_us
+//------------------------------
+//! A simple cyclic Timer with 1µs resolution.
+/*!
+    This is a simple Timer with microseconds resolution.
+    If the Timer is started with Timer_us::start() the internal counter will be
+    increased until it reaches the interval time set by 
+    Timer_us::setInterval(long us). Then Timer_us::out is set to true for one
+    cycle and the interval begins again.
+
+    The Timer_us class uses the micros() function so the interval time
+    can be set from 1µs to appox. 70 minutes.
+*/
+
+class Timer_us {
+private:
+    ulong t0;
+    ulong us;
+    ulong delta;
+public:
+    //!True if the Timer is active.
+    boolean active;
+    //!Output. True if an interval has passed.
+    boolean out;
+
+    Timer_us(ulong us=100, boolean start=false);
+    
+    boolean process();
+    //!Start the timer
+    void start();
+    //!Stop the timer and reset output and internal counter
+    void stop();
+
+    //!Get the timer interval in ms
+    ulong getInterval();
+    //!Set the timer interval in ms
+    void setInterval(ulong us);
+
+    //!Get the value of the internal millisecond counter
+    ulong getus();
+};
 #endif

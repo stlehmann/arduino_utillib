@@ -123,3 +123,95 @@ boolean PWM_DC::process(ulong dc) {
     this->dc = dc;
     return this->process();
 }
+
+//------------------------------
+// Timer_ms
+//------------------------------
+Timer_ms::Timer_ms(ulong ms, boolean start) {
+    t0 = 0;
+    this->ms = ms;
+    delta = 0;
+    active = start;
+    out = false;
+}
+boolean Timer_ms::process() {
+    long t = millis();
+    if (active) {
+        if (t0 == 0) t0 = t;
+        if ((t - t0) > ms) {
+            out = true;
+            delta = t - t0;
+            t0 = 0;
+        }
+        else {
+            out = false;
+        }
+    }
+    return out;
+}
+void Timer_ms::start() {
+    active = true;
+}
+void Timer_ms::stop() {
+    active = false;
+    t0 = 0;
+    out = false;
+}
+
+ulong Timer_ms::getInterval() {
+    return ms;
+}
+void Timer_ms::setInterval(ulong ms) {
+    this->ms = ms;
+}
+
+ulong Timer_ms::getms() {
+    if (t0 == 0)  return delta;
+    else return (millis() - t0);
+}
+
+//------------------------------
+// Timer_us
+//------------------------------
+Timer_us::Timer_us(ulong us, boolean start) {
+    t0 = 0;
+    this->us = us;
+    delta = 0;
+    active = start;
+    out = false;
+}
+boolean Timer_us::process() {
+    long t = micros();
+    if (active) {
+        if (t0 == 0) t0 = t;
+        if ((t - t0) > us) {
+            out = true;
+            delta = t - t0;
+            t0 = 0;
+        }
+        else {
+            out = false;
+        }
+    }
+    return out;
+}
+void Timer_us::start() {
+    active = true;
+}
+void Timer_us::stop() {
+    active = false;
+    t0 = 0;
+    out = false;
+}
+
+ulong Timer_us::getInterval() {
+    return us;
+}
+void Timer_us::setInterval(ulong us) {
+    this->us = us;
+}
+
+ulong Timer_us::getus() {
+    if (t0 == 0)  return delta;
+    else return (micros() - t0);
+}
