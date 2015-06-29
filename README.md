@@ -1,4 +1,4 @@
-# utilities
+# utillib - Arduino library
 This is library with useful functions and classes for Arduino.
 
 Copyright © 2015 by Stefan Lehmann
