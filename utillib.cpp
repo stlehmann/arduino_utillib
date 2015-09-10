@@ -1,4 +1,5 @@
 #include "utillib.h"
+#include <limits.h>
 
 //------------------------------
 //getbit
@@ -99,7 +100,9 @@ PWM_DC::PWM_DC(ulong fq) {
 boolean PWM_DC::process() {
     // current time and starttime
     ulong t_cycle = 1E9 / fq;  // cycle time
-    ulong t_duty = (dc * t_cycle / 1E3);  // duty time
+    ulong t_duty = (t_cycle < ULONG_MAX / dc) ?
+                   (dc * t_cycle / 1E3) :
+                   (t_cycle / 1E3 * dc);  // duty time
 
     ulong t = micros();
     switch (state) {
@@ -118,7 +121,7 @@ boolean PWM_DC::process() {
             state = 0;
         break;
     }
-    out = (state < 2);
+    out = dc > 0 && (state < 2);
     return out;
 }
 boolean PWM_DC::process(ulong dc) {
