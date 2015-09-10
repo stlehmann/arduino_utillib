@@ -110,13 +110,15 @@ boolean PWM_DC::process() {
     case 1:
         if ((t - t0) > t_duty)
             state = 2;
+        if ((t - t0) > t_cycle)
+            state = 0;
         break;
     case 2:
         if ((t - t0) > t_cycle)
             state = 0;
         break;
     }
-    out = (state == 1);
+    out = (state < 2);
     return out;
 }
 boolean PWM_DC::process(ulong dc) {
