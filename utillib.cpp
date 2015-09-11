@@ -100,7 +100,7 @@ PWM_DC::PWM_DC(ulong fq) {
 boolean PWM_DC::process() {
     // current time and starttime
     ulong t_cycle = 1E9 / fq;  // cycle time
-    ulong t_duty = (t_cycle < ULONG_MAX / dc) ?
+    ulong t_duty = (t_cycle < (ULONG_MAX / dc)) ?
                    (dc * t_cycle / 1E3) :
                    (t_cycle / 1E3 * dc);  // duty time
 

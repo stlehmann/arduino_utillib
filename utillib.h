@@ -89,15 +89,20 @@ public:
 /*!
     The signal frequency is defined in **0.001Hz** by PWM_DC::fq.
     The duty cycle is defined in **0.1%** by PWM_DC::dc.
+    For timing the micros() function is used. While this means very exact
+    timing at higher frequency it means cycletimes > 70 minutes can not
+    be served. The longest cycletime is 1e9µs meaning 16,7 minutes (0,001Hz).
 
     A sample implementation can be found in
     `examples/signalgeneration/pwm_dc/pwm_dc.ino`.
 */
 class PWM_DC {
+
 private:
     ulong t0;
     unsigned int state;
     boolean last_enable;
+
 public:
     //!PWM frequency in 0.001Hz
     ulong fq;
@@ -126,7 +131,7 @@ public:
 /*!
     This is a simple Timer with milliseconds resolution.
     If the Timer is started with Timer_ms::start() the internal counter is
-    increased until it reaches the interval time set by 
+    increased until it reaches the interval time set by
     Timer_ms::setInterval(ulong ms). Then Timer_ms::out is set to true for one
     cycle and the interval begins again.
 
@@ -146,7 +151,7 @@ public:
     boolean out;
 
     Timer_ms(ulong ms=100, boolean start=false);
-    
+
     boolean process();
     //!Start the timer
     void start();
@@ -168,7 +173,7 @@ public:
 /*!
     This is a simple Timer with microseconds resolution.
     If the Timer is started with Timer_us::start() the internal counter will be
-    increased until it reaches the interval time set by 
+    increased until it reaches the interval time set by
     Timer_us::setInterval(long us). Then Timer_us::out is set to true for one
     cycle and the interval begins again.
 
@@ -188,7 +193,7 @@ public:
     boolean out;
 
     Timer_us(ulong us=100, boolean start=false);
-    
+
     boolean process();
     //!Start the timer
     void start();
