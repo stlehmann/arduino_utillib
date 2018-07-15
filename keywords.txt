@@ -4,15 +4,15 @@
 
 # Classes KEYWORD1)
 # -------------------------------------
-utilities		KEYWORD1
-Blink			KEYWORD1
-PWM_DC			KEYWORD1
+utilities	KEYWORD1
+Blink	KEYWORD1
+PWM_DC	KEYWORD1
 
 # Methods and Functions (KEYWORD2)
 # -------------------------------------
-getbit			KEYWORD2
-setbit			KEYWORD2
+getbit	KEYWORD2
+setbit	KEYWORD2
 
 # Constants (LITERAL1)
 # -------------------------------------
-dword			LITERAL1
+dword	LITERAL1
